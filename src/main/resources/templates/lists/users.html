@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI - Users</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <div class="table-header">
+            <h1>Registered Users</h1>
+            <div class="btn-group" sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')">
+                <a th:href="@{/register}" class="btn btn-outline-primary">
+                    Add user
+                </a>
+                <a th:href="@{/admin/delete/user/all}" class="btn btn-outline-danger">Delete all</a>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Telephone</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.id}"></td>
+                <td th:text="${u.username}"></td>
+                <td th:text="${u.password}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.telephone}"></td>
+                <td>
+                    <a th:href="@{/admin/user(id=${u.id})}" class="btn btn-outline-primary">
+                        Edit user
+                    </a>
+                    <a th:href="@{/admin/delete/user(id=${u.id})}" class="btn btn-outline-primary">
+                        Delete user
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main th:object="${game}">
+        <div th:replace="/components/alerts"></div>
+        <h1><span th:text="*{teamA.name}">Team A</span> vs. <span th:text="*{teamB.name}">Team B</span></h1>
+        <div th:if="${started}">
+            <h2 th:if="${ended}">Ended</h2>
+            <h2><span th:text="${game.goalsA}"></span> - <span th:text="${game.goalsB}"></span></h2>
+        </div>
+        <h2 th:unless="${started}">Not started</h2>
+        <h3 th:text="${#dates.format(#object.starts, 'dd/MM/yyyy @ HH:mm')}"></h3>
+        <h3>Location: <span th:text="*{location}"></span></h3>
+        <a th:if="${started}" sec:authorize="isAuthenticated() && hasRole('USER')" th:href="@{/event/new(id=*{id})}" class="btn btn-outline-primary">
+            Add event
+        </a>
+        <table class="table table-bordered table-hover" th:if="!*{events.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="e : ${game.events}">
+                    <td th:text="${e.eventType.displayValue}"></td>
+                    <td th:text="${#dates.format(e.stamp, 'dd/MM/yyyy @ HH:mm')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

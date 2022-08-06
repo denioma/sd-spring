@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI - Teams</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <div class="table-header">
+            <h1>Stats</h1>
+        </div>
+        <h3>Best scorer:
+            <span th:if="${bestScorer}" th:text="${bestScorer.name}"></span>
+            <span th:unless="${bestScorer}">N/A</span>
+        </h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Goals</th>
+                    <th>Wins</th>
+                    <th>Losses</th>
+                    <th>Ties</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="t : ${teams}">
+                    <td th:text="${t.name}">Team Name</td>
+                    <td th:text="${t.goals}">Goals</td>
+                    <td th:text="${t.wins}">Wins</td>
+                    <td th:text="${t.losses}">Losses</td>
+                    <td th:text="${t.ties}">Ties</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

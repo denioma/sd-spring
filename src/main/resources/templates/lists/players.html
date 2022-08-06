@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI - Players</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <div class="table-header">
+            <h1>Players</h1>
+            <div class="btn-group" sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')">
+                <a th:href="@{/admin/player}" class="btn btn-outline-primary">
+                    Add player
+                </a>
+                <a th:href="@{/admin/delete/player/all}" class="btn btn-outline-danger">
+                    Delete all
+                </a>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Birthday</th>
+                    <th>Position</th>
+                    <th>Team</th>
+                    <th sec:authorize="isAuthenticated() && hasRole('ADMIN')">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${players}">
+                    <td th:text="${p.name}">Player Name</td>
+                    <td th:text="${#dates.format(p.birthday, 'dd-MM-yyyy')}">Player Birthday</td>
+                    <td th:text="${p.position}">Player Position</td>
+                    <td th:text="${p.team?.name}">Team Name</td>
+                    <td sec:authorize="isAuthenticated() && hasRole('ADMIN')">
+                        <a th:href="@{/admin/player(id=${p.id})}" class="btn btn-outline-primary">
+                            Edit player
+                        </a>
+                        <a th:href="@{/admin/delete/player(id=${p.id})}" class="btn btn-outline-primary">
+                            Delete player
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

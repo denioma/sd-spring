@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI - Teams</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <div class="table-header">
+            <h1>Teams</h1>
+            <div class="btn-group" sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')">
+                <a th:href="@{/admin/team}" class="btn btn-outline-primary">
+                    Add team
+                </a>
+                <a th:href="@{/admin/delete/team/all}" class="btn btn-outline-danger">Delete all</a>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Players</th>
+                    <th sec:authorize="isAuthenticated() && hasRole('ADMIN')">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="t : ${teams}">
+                    <td>
+                        <img th:if="${t.image}" th:src="${t.image}" alt="Team Logo" style="height:50px;width:auto;">
+                        <span th:unless="${t.image}">No image available</span>
+                    </td>
+                    <td th:text="${t.name}">Team Name</td>
+                    <td>
+                        <ul th:each="p: ${t.players}" class="list-group list-group-flush">
+                            <li th:text="${p.name}" class="list-group-item">Player Name</li>
+                        </ul>
+                    </td>
+                    <td sec:authorize="isAuthenticated() && hasRole('ADMIN')">
+                        <a th:href="@{/admin/team(id=${t.id})}" class="btn btn-outline-primary">
+                            Edit team
+                        </a>
+                        <a th:href="@{/admin/delete/team(id=${t.id})}" class="btn btn-outline-primary">
+                            Delete team
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

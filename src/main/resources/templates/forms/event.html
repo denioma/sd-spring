@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <script>
+        const hideProp = () => {
+            let selectedOption = $("#inputType").find(":selected").val();
+            const options = ['GOAL', 'YELLOW', 'RED'];
+            let prop = $(document).find("#selectPlayer");
+            if (options.indexOf(selectedOption) >= 0) prop.show();
+            else prop.hide();
+        };
+
+        $(document).ready(() => {
+            hideProp();
+            $(document).on("change", "#inputType", hideProp);
+        });
+    </script>
+    <title>scoreDEI</title>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <h1>Add Event</h1>
+        <form th:action="@{/event/save}" th:object="${event}" method="post">
+            <input type="hidden" th:value="*{id}" th:field="*{id}">
+            <input type="hidden" th:value="*{game}" th:field="*{game}">
+            <div class="row mb-3">
+                <div class="form-group col-auto">
+                    <label for="inputType" class="form-label">Event type</label>
+                    <select id="inputType" class="form-select" th:field="*{eventType}">
+                        <option
+                                th:each="option : ${T(com.example.sdproject.data.entity.EventType).values()}"
+                                th:value="${option}"
+                                th:text="${option.displayValue}"
+                        >Team</option>
+                    </select>
+                </div>
+                <div class="form-group col-auto" id="selectPlayer">
+                    <label for="inputPlayer" class="form-label">Player</label>
+                    <select id="inputPlayer" class="form-select" th:field="*{player}">
+                        <option
+                                th:each="p : ${players}"
+                                th:value="${p.id}"
+                                th:text="${p.name}"
+                        >Player</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-auto">
+                    <label for="inputTime" class="form-label">Start time</label>
+                    <input type="datetime-local" id="inputTime" class="form-control" required="true"
+                           th:field="*{stamp}" th:min="*{{game.starts}}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </main>
+</body>
+</html>

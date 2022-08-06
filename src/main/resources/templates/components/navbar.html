@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-sm" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div class="container-fluid">
+        <a th:href="@{/}" class="navbar-brand h1">scoreDEI</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a th:href="@{/games}" class="nav-link active">Games</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/teams}" class="nav-link active">Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/players}" class="nav-link active">Players</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/stats}" class="nav-link active">Stats</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                        <span sec:authorize="!isAuthenticated()">Account</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div sec:authorize="!isAuthenticated()">
+                            <li>
+                                <a th:href="@{/login}" class="dropdown-item">Login</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/register}" class="dropdown-item">Register</a>
+                            </li>
+                        </div>
+                        <div sec:authorize="isAuthenticated()">
+                            <div sec:authorize="hasRole('ADMIN')">
+                                <li sec:authorize="isAuthenticated() && hasRole('ADMIN')">
+                                    <a th:href="@{/admin}" class="dropdown-item">Admin Dashboard</a>
+                                </li>
+                            </div>
+                            <li>
+                                <a th:href="@{/logout}" class="dropdown-item">Logout</a>
+                            </li>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

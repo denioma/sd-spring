@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <h1>Add/Edit Player</h1>
+        <form th:action="@{/admin/savePlayer}" th:object="${player}" method="post">
+            <div>
+                <input type="hidden" th:field="*{id}">
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-auto">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" id="inputName" class="form-control" th:field="*{name}" required="true">
+                </div>
+                <div class="col-auto form-group">
+                    <label for="inputBirthday" class="form-label">Birthday</label>
+                    <input type="date" id="inputBirthday" class="form-control" th:field="*{birthday}" required="true">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-auto">
+                    <label for="inputPosition" class="form-label">Position</label>
+                    <input type="text" id="inputPosition" class="form-control" th:field="*{position}" required="true">
+                </div>
+                <div class="form-group col-auto">
+                    <label for="inputTeam" class="form-label">Team</label>
+                    <select id="inputTeam" class="form-select" th:field="*{team}" required="true">
+                        <option th:each="t : ${teams}"
+                                th:value="${t.id}"
+                                th:text="${t.name}">
+                            Team name
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </main>
+</body>
+</html>

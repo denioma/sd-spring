@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI - Leagues</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <div class="table-header">
+            <h1>Leagues</h1>
+            <div class="btn-group">
+                <a th:href="@{/external/leagues}" class="btn btn-outline-primary">Import from API</a>
+                <a th:href="@{/admin/delete/league/all}" class="btn btn-outline-danger">Delete all</a>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>League</th>
+                    <th>Country</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="l : ${leagues}">
+                    <td th:text="${l.leagueId}">Id</td>
+                    <td th:text="${l.name}">League Name</td>
+                    <td th:text="${l.country}">Country</td>
+                    <td>
+                        <a th:href="@{/external/data(leagueId=${l.leagueId})}" class="btn btn-outline-primary">
+                            Get data
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

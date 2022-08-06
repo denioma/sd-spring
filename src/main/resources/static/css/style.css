@@ -1,0 +1,30 @@
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48
+}
+
+.table-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.table-header > * {
+    height: fit-content;
+}
+
+#actions > * {
+    margin: 5px;
+}
+
+main {
+    margin: 25px;
+}

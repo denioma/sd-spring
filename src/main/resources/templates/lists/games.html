@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI - Games</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <div class="table-header">
+            <h1>Games</h1>
+            <div class="btn-group" sec:authorize="isAuthenticated() && hasRole('ADMIN')">
+                <a th:href="@{/admin/game}" class="btn btn-outline-primary">
+                    Add game
+                </a>
+                <a th:href="@{/admin/delete/game/all}" class="btn btn-outline-danger">Delete all</a>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Teams</th>
+                    <th>Location</th>
+                    <th>Start time</th>
+                    <th sec:authorize="isAuthenticated() && hasRole('ADMIN')">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="g : ${games}">
+                    <td>
+                            <ul th:each="t: ${g.teams}">
+                                <li th:text="${t.name}">Team Name</li>
+                            </ul>
+                        </td>
+                    <td th:text="${g.location}"></td>
+                    <td th:text="${#dates.format(g.starts, 'dd/MM/yy @ HH:mm')}"></td>
+                    <td id="actions">
+                        <a th:href="@{/game(id=${g.id})}" class="btn btn-outline-primary">View game</a>
+                        <div sec:authorize="isAuthenticated() && hasRole('ADMIN')">
+                            <a th:href="@{/admin/game(id=${g.id})}" class="btn btn-outline-primary">
+                                Edit game
+                            </a>
+                            <a th:href="@{/admin/delete/game(id=${g.id})}" class="btn btn-outline-primary">
+                                Delete game
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

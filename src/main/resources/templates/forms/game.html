@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scoreDEI</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}" rel="stylesheet" href="../../static/css/bootstrap.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}" rel="stylesheet" href="../../static/css/style.css">
+    <script th:src="@{/js/bootstrap.bundle.min.js}" src="../../static/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div th:replace="/components/navbar"></div>
+    <main class="container-fluid">
+        <div th:replace="/components/alerts"></div>
+        <h1>Add/Edit Game</h1>
+        <form th:action="@{/admin/saveGame}" th:object="${game}" method="post">
+            <input type="hidden" th:field="*{id}" th:value="*{id}">
+            <div class="row mb-3">
+                <div class="form-group col-auto">
+                    <label for="inputTeamA" class="form-label">Team A</label>
+                    <select id="inputTeamA" class="form-select" th:field="*{teamA}" required="true">
+                        <option
+                                th:each="t : ${teams}"
+                                th:value="${t.id}"
+                                th:text="${t.name}"
+                        >Team</option>
+                    </select>
+                </div>
+                <div class="form-group col-auto">
+                    <label for="inputTeamB" class="form-label">Team B</label>
+                    <select id="inputTeamB" class="form-select" th:field="*{teamB}" required="true">
+                        <option
+                                th:each="t : ${teams}"
+                                th:value="${t.id}"
+                                th:text="${t.name}"
+                        >Team</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-auto">
+                    <label for="inputLocation" class="form-label">Location</label>
+                    <input type="text" id="inputLocation" class="form-control" th:field="*{location}" required="true">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="form-group col-auto">
+                    <label for="inputTime" class="form-label">Start time</label>
+                    <input type="datetime-local" id="inputTime" class="form-control" th:field="*{starts}" required="true">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </main>
+</body>
+</html>
